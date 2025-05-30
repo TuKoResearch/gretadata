@@ -92,6 +92,31 @@
             justify-content: center;
         }
         
+        /* Adjust font size for different screen sizes */
+        @media (max-width: 1400px) {
+            .ascii-container {
+                font-size: 3.5px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .ascii-container {
+                font-size: 3px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .ascii-container {
+                font-size: 2.5px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .ascii-container {
+                font-size: 2px;
+            }
+        }
+        
         .title-overlay {
             position: absolute;
             top: 50%;
@@ -275,17 +300,44 @@
     
     <section class="projects-section" id="projects">
         <h2 class="section-title">Projects</h2>
+
         <div class="project-card">
             <h3 class="project-title">Model Connectomes</h3>
             <div class="project-description">
-                <p>We use the Tuckute2024 neural benchmark, which can be downloaded from the following <a href="https://github.com/gretatuckute/drive_suppress_brains" target="_blank">public repository</a> or <a href="https://github.com/brain-score/language" target="_blank">brain-score language</a>. The cross-validation neural predictivity score can be run from <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/fit_mapping.py" target="_blank">NeuralAlignment/fit_mapping.py</a> and looped across layers and models using <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/loop_fit_mapping.py" target="_blank">NeuralAlignment/loop_fit_mapping.py</a>.</p>
+                <p>
+                    Biological neural networks are shaped both by evolution across generations and
+                    by individual learning within an organism's lifetime, whereas standard artificial
+                    neural networks undergo a single, large training procedure without inherited con-
+                    straints. In this preliminary work, we propose a framework that incorporates this
+                    crucial generational dimension—an "outer loop" of evolution that shapes the "in-
+                    ner loop" of learning—so that artificial networks better mirror the effects of evo-
+                    lution and individual learning in biological organisms.
+                </p>
+
+                <p>
+                    We use the Tuckute2024 neural benchmark, which can be downloaded from the following 
+                    <a href="https://github.com/gretatuckute/drive_suppress_brains" target="_blank">public repository</a> or 
+                    <a href="https://github.com/brain-score/language" target="_blank">brain-score language</a>. 
+                    The cross-validation neural predictivity score can be run from 
+                    <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/fit_mapping.py" target="_blank">NeuralAlignment/fit_mapping.py</a> 
+                    and looped across layers and models using <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/loop_fit_mapping.py" target="_blank">NeuralAlignment/loop_fit_mapping.py</a>.
+                </p>
                 
-                <p>In some of the analyses, we first localize the LLM language units, per the approach established in AlKhamissi et al., 2025 (<em>ACL</em>), from the <a href="https://github.com/BKHMSI/llm-localization" target="_blank">following repository</a>. We adapted this code to output a binary mask which marks the LLM language units as 1. The <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/apply_langloc_mask.py" target="_blank">NeuralAlignment/apply_langloc_mask.py</a> script takes the the numpy binary mask for a given model, and saves the masked embedding values as a csv file, which can then serve as the input to <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/fit_mapping.py" target="_blank">NeuralAlignment/fit_mapping.py</a>.</p>
+                <p>
+                    In some of the analyses, we first localize the LLM language units, per the approach established in 
+                    AlKhamissi et al., 2025 (<em>ACL</em>), from the 
+                    <a href="https://github.com/BKHMSI/llm-localization" target="_blank">following repository</a>. 
+                    We adapted this code to output a binary mask which marks the LLM language units as 1. 
+                    The <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/apply_langloc_mask.py" target="_blank">NeuralAlignment/apply_langloc_mask.py</a> 
+                    script takes the the numpy binary mask for a given model, and saves the masked embedding values as a csv file, 
+                    which can then serve as the input to <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/fit_mapping.py" target="_blank">NeuralAlignment/fit_mapping.py</a>.
+                </p>
                 
                 <p>The binary langloc masks, the model embeddings, and the regression outputs can be downloaded below.</p>
             </div>
             <a href="https://huggingface.co/datasets/TuKoResearch/GenerationalConnectomesData/resolve/main/SHARE.zip?download=true" class="download-btn" target="_blank">download data</a>
         </div>
+        
     </section>
     
     <script>
@@ -293,49 +345,18 @@
         let mountains = [];
         let mountainFiles = [];
         
-        // ASCII art for GRETADATA
-        const gretadataAscii = `    ,----,      ,----,                    ,/  .\`|    ,/  .\`|      ,----..                        ,-.----.      ,---,.        ,\`   .' :   ,---,       ,---.   ,---,       ,\`   .' :        ,---,       
-   /   /   \\    \\    /  \\   ,---.'     |   ;    ;  /        '   .'  \\      .'  .' \`\\   '  .' \\      ;    ;  /       '   .'  \\     
-  |   :     :   ;   :    \\  |   |   .\\  : .;___,/  ,'/  ;    '.    ,---.'     \\  /  ;    '.  .;___,/  ,'/  ;    '.    
-  .   |  ;. /   |   | .\\  : :   :  |-,; |.'|   :    |:  :       \\   |   |  .\`\\  |:  :       \\  |   :    |:  :       \\   
-  .   ; /--\`    .   : |:  | :   |  ;/|\`----'  |   | || :   |   /  \\ :   : |  '  || :   |   /  \\ \`----'  |   | || :   |   /  \\  
-  ;   | ;   __  |   |  \\ : |   :   .'        '   : ;| |   ;   ;   \\:  |  ' '  ; :| |   ;   ;   \\      '   : ;| |   ;   ;   \\ 
-  |   : |.' .'| :   .   / |   |  |-,        |   | '|  '   |  /|   \\' |  ; .   | ||  '   |  /|   \\     |   | '|  '   |  /|   \\
-  .   | '_.' :; |   | \`   '   :  ;/|        '   : |;  |   :    ;   |  |  : |   '  ;  |   :    ;   |     '   : |;  |   :    ;   |
-  '   ; : \\  || |   : |   |   |    \\        ;   |.' \\  |   |  /   ' :  | /   ;  |\\  |   |  /   '      ;   |.' \\  |   |  /   ' 
-  '   | '/  .': \   | /   |   :   .'        '---'    | :   : |    | |  ' |   :    | :   : |          '---'    | :   : |     
-  |   :    /  : :   ' ;   |   | ,'                   | |   | :    ;  :   \\   |   / | |   | :                   | |   | :     
-   \\   \\ .'   | | \`-'    \`----'                     \`-'---'|     |   \\ .' \`----'  \`-'---'|                      \`-'---'|      
-    \`---\`     | ;                                           \`---'  \`---\`                  \`---'                           \`---'       
-              |/                                                                                                                  
-              '---'`;
-        
         let currentMountain = 0;
         let resizeTimeout;
         
         // Load mountain files from the mountains/ directory
         async function loadMountains() {
-            // In a real server environment, you'd need to either:
-            // 1. Have a server endpoint that lists the files
-            // 2. Or maintain a list of available mountain files
-            // For this example, we'll try to load several numbered files
-            const maxAttempts = 10; // Try to load up to 10 mountain files
-            
-            for (let i = 1; i <= maxAttempts; i++) {
-                try {
-                    const response = await fetch(`mountains/mountain${i}.txt`);
-                    if (response.ok) {
-                        const text = await response.text();
-                        mountains.push(text);
-                        mountainFiles.push(`mountain${i}.txt`);
-                    }
-                } catch (error) {
-                    // File doesn't exist or couldn't be loaded, continue
-                }
-            }
-            
+
             // Also try some named files
-            const namedFiles = ['everest.txt', 'k2.txt', 'matterhorn.txt', 'aconcagua.txt'];
+            const namedFiles = [
+                'everest.txt', 'k2.txt', 'matterhorn.txt', 'aconcagua.txt', 
+                'whitney.txt', 'gardena.txt', 'kilimanjaro.txt', 'denali.txt',
+                'fuji.txt', 'chimborazo.txt',
+            ];
             for (const filename of namedFiles) {
                 try {
                     const response = await fetch(`mountains/${filename}`);
@@ -349,21 +370,6 @@
                 }
             }
             
-            // If no mountains were loaded, show an error message
-            if (mountains.length === 0) {
-                mountains.push(`
-                    No mountain files found!
-                    
-                    Please add .txt files containing ASCII art to the mountains/ folder.
-                    
-                    Examples:
-                    - mountains/mountain1.txt
-                    - mountains/mountain2.txt
-                    - mountains/everest.txt
-                    - mountains/alps.txt
-                `);
-            }
-            
             // Select a random mountain and display it
             currentMountain = Math.floor(Math.random() * mountains.length);
             updateDisplay();
@@ -372,7 +378,13 @@
         function getCharWidth() {
             const testElement = document.createElement('span');
             testElement.style.fontFamily = 'monospace';
-            testElement.style.fontSize = '4px';
+            
+            // Get the current font size from computed styles
+            const asciiContainer = document.getElementById('asciiArt');
+            const computedStyle = window.getComputedStyle(asciiContainer);
+            const fontSize = computedStyle.fontSize;
+            
+            testElement.style.fontSize = fontSize;
             testElement.style.position = 'absolute';
             testElement.style.visibility = 'hidden';
             testElement.textContent = 'M';
