@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRETADATA</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-light: #f7f7f6;
+            --text-light: #6a6a6a;
+            --bg-dark: #2a2a2a;
+            --text-dark: #a8a8a8;
+            --accent: #5fd3d3;
+            --project-bg-light: #ffffff;
+            --project-border-light: #e5e5e3;
+            --project-bg-dark: #1f1f1f;
+            --project-border-dark: #3a3a3a;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--bg-light);
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark mode styles */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--bg-dark);
+                color: #ccc;
+            }
+            
+            .ascii-container {
+                color: var(--text-dark);
+            }
+            
+            .hero-download-btn {
+                background-color: var(--bg-dark);
+            }
+            
+            .download-btn {
+                background-color: var(--bg-dark);
+            }
+        }
+        
+        /* Light mode styles */
+        @media (prefers-color-scheme: light) {
+            .ascii-container {
+                color: var(--text-light);
+            }
+            
+            .hero-download-btn {
+                background-color: var(--bg-light);
+            }
+            
+            .download-btn {
+                background-color: var(--bg-light);
+            }
+        }
+        
+        .hero-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .ascii-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: monospace;
+            font-size: 4px;
+            line-height: 1.2;
+            white-space: pre;
+            user-select: none;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        
+        .title-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(95, 211, 211, 0.5);
+            text-align: center;
+        }
+        
+        .hero-download-btn {
+            margin-top: 2rem;
+            padding: 12px 36px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 400;
+            text-transform: lowercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .hero-download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        
+        .hero-download-btn:hover {
+            color: white;
+        }
+        
+        .hero-download-btn:hover::before {
+            left: 0;
+        }
+        
+        .projects-section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 80px;
+            font-weight: 500;
+        }
+        
+        .project-card {
+            margin-bottom: 60px;
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+        
+        .project-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .project-description {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0.8;
+            max-width: 800px;
+        }
+        
+        .project-description p {
+            margin-bottom: 15px;
+        }
+        
+        .project-description a {
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #333;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .project-description a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .project-description a {
+                color: #ccc;
+                border-bottom-color: #ccc;
+            }
+            
+            .project-description a:hover {
+                color: var(--accent);
+                border-bottom-color: var(--accent);
+            }
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 12px 36px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 400;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: lowercase;
+            z-index: 1;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        
+        .download-btn:hover {
+            color: white;
+        }
+        
+        .download-btn:hover::before {
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="ascii-container" id="asciiArt"></div>
+        <div class="title-overlay" id="titleOverlay">
+            GRETADATA
+            <br>
+            <button class="hero-download-btn" onclick="scrollToProjects()">download</button>
+        </div>
+    </section>
+    
+    <section class="projects-section" id="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="project-card">
+            <h3 class="project-title">Model Connectomes</h3>
+            <div class="project-description">
+                <p>
+                    Biological neural networks are shaped both by evolution across generations and
+                    by individual learning within an organism’s lifetime, whereas standard artificial
+                    neural networks undergo a single, large training procedure without inherited con-
+                    straints. In this preliminary work, we propose a framework that incorporates this
+                    crucial generational dimension—an “outer loop” of evolution that shapes the “in-
+                    ner loop” of learning—so that artificial networks better mirror the effects of evo-
+                    lution and individual learning in biological organisms.
+                </p>
+
+                <p>
+                    We use the Tuckute2024 neural benchmark, which can be downloaded from the following 
+                    <a href="https://github.com/gretatuckute/drive_suppress_brains" target="_blank">public repository</a> or 
+                    <a href="https://github.com/brain-score/language" target="_blank">brain-score language</a>. 
+                    The cross-validation neural predictivity score can be run from 
+                    <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/fit_mapping.py" target="_blank">NeuralAlignment/fit_mapping.py</a> 
+                    and looped across layers and models using <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/loop_fit_mapping.py" target="_blank">NeuralAlignment/loop_fit_mapping.py</a>.
+                </p>
+                
+                <p>
+                    In some of the analyses, we first localize the LLM language units, per the approach established in 
+                    AlKhamissi et al., 2025 (<em>ACL</em>), from the 
+                    <a href="https://github.com/BKHMSI/llm-localization" target="_blank">following repository</a>. 
+                    We adapted this code to output a binary mask which marks the LLM language units as 1. 
+                    The <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/apply_langloc_mask.py" target="_blank">NeuralAlignment/apply_langloc_mask.py</a> 
+                    script takes the the numpy binary mask for a given model, and saves the masked embedding values as a csv file, 
+                    which can then serve as the input to <a href="https://github.com/TuKoResearch/GenerationalConnectomes/blob/main/NeuralAlignment/fit_mapping.py" target="_blank">NeuralAlignment/fit_mapping.py</a>.
+                </p>
+                
+                <p>The binary langloc masks, the model embeddings, and the regression outputs can be downloaded below.</p>
+            </div>
+            <a href="https://huggingface.co/datasets/TuKoResearch/GenerationalConnectomesData/resolve/main/SHARE.zip?download=true" class="download-btn" target="_blank">download data</a>
+        </div>
+    </section>
+    
+    <script>
+        // Mountain files will be loaded dynamically
+        let mountains = [];
+        let mountainFiles = [];
+        let currentMountain = 0;
+        let resizeTimeout;
+        
+        // Load mountain files from the mountains/ directory
+        async function loadMountains() {
+            // In a real server environment, you'd need to either:
+            // 1. Have a server endpoint that lists the files
+            // 2. Or maintain a list of available mountain files
+            // For this example, we'll try to load several numbered files
+            const maxAttempts = 10; // Try to load up to 10 mountain files
+            
+            for (let i = 1; i <= maxAttempts; i++) {
+                try {
+                    const response = await fetch(`mountains/mountain${i}.txt`);
+                    if (response.ok) {
+                        const text = await response.text();
+                        mountains.push(text);
+                        mountainFiles.push(`mountain${i}.txt`);
+                    }
+                } catch (error) {
+                    // File doesn't exist or couldn't be loaded, continue
+                }
+            }
+            
+            // Also try some named files
+            const namedFiles = [
+                'everest.txt', 'k2.txt', 'matterhorn.txt', 'aconcagua.txt', 
+                'whitney.txt', 'gardena.txt', 'kilimanjaro.txt', 'denali.txt',
+                'fuji.txt', 'chimborazo.txt',
+            ];
+            for (const filename of namedFiles) {
+                try {
+                    const response = await fetch(`mountains/${filename}`);
+                    if (response.ok) {
+                        const text = await response.text();
+                        mountains.push(text);
+                        mountainFiles.push(filename);
+                    }
+                } catch (error) {
+                    // File doesn't exist or couldn't be loaded, continue
+                }
+            }
+            
+            // If no mountains were loaded, show an error message
+            if (mountains.length === 0) {
+                mountains.push(`
+                    No mountain files found!
+                    
+                    Please add .txt files containing ASCII art to the mountains/ folder.
+                    
+                    Examples:
+                    - mountains/mountain1.txt
+                    - mountains/mountain2.txt
+                    - mountains/everest.txt
+                    - mountains/alps.txt
+                `);
+            }
+            
+            // Select a random mountain and display it
+            currentMountain = Math.floor(Math.random() * mountains.length);
+            updateDisplay();
+        }
+        
+        function getCharWidth() {
+            const testElement = document.createElement('span');
+            testElement.style.fontFamily = 'monospace';
+            testElement.style.fontSize = '4px';
+            testElement.style.position = 'absolute';
+            testElement.style.visibility = 'hidden';
+            testElement.textContent = 'M';
+            document.body.appendChild(testElement);
+            const width = testElement.offsetWidth;
+            document.body.removeChild(testElement);
+            return width;
+        }
+        
+        function getCharsPerLine() {
+            const charWidth = getCharWidth();
+            const windowWidth = window.innerWidth;
+            return Math.floor(windowWidth / charWidth);
+        }
+        
+        function cropMountain(mountain, charsPerLine) {
+            const lines = mountain.split('\n');
+            return lines.map(line => {
+                if (line.length <= charsPerLine) {
+                    // Center the line if it's shorter than viewport
+                    const padding = Math.floor((charsPerLine - line.length) / 2);
+                    return ' '.repeat(padding) + line + ' '.repeat(padding);
+                } else {
+                    // Crop from the center if line is longer than viewport
+                    const start = Math.floor((line.length - charsPerLine) / 2);
+                    return line.substring(start, start + charsPerLine);
+                }
+            });
+        }
+        
+        function createTitleOverlay() {
+            return gretadataAscii;
+        }
+        
+        function updateDisplay() {
+            if (mountains.length === 0) {
+                // If no mountains loaded yet, show loading message
+                const asciiContainer = document.getElementById('asciiArt');
+                asciiContainer.textContent = 'Loading mountains...';
+                return;
+            }
+            
+            const charsPerLine = getCharsPerLine();
+            const asciiContainer = document.getElementById('asciiArt');
+            const titleOverlay = document.getElementById('titleOverlay');
+            
+            // Crop mountain and convert to lines array
+            const croppedMountainLines = cropMountain(mountains[currentMountain], charsPerLine);
+            
+            // Display the mountain
+            asciiContainer.textContent = croppedMountainLines.join('\n');
+            
+            // Title is now in HTML, no need to set it here
+            titleOverlay.style.display = 'block';
+        }
+        
+        function scrollToProjects() {
+            document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function handleDownload(filename) {
+            // In a real implementation, this would trigger a download
+            console.log(`Downloading ${filename}...`);
+            alert(`Download started: ${filename}`);
+        }
+        
+        // Initialize
+        window.addEventListener('load', async () => {
+            updateDisplay(); // Show loading message
+            await loadMountains(); // Load mountains from files
+        });
+        
+        // Handle resize
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateDisplay, 150);
+        });
+        
+        // Random mountain on visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && mountains.length > 0) {
+                currentMountain = Math.floor(Math.random() * mountains.length);
+                updateDisplay();
+            }
+        });
+    </script>
+</body>
+</html>
