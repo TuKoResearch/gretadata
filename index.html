@@ -314,26 +314,7 @@
         
         // Load mountain files from the mountains/ directory
         async function loadMountains() {
-            // In a real server environment, you'd need to either:
-            // 1. Have a server endpoint that lists the files
-            // 2. Or maintain a list of available mountain files
-            // For this example, we'll try to load several numbered files
-            const maxAttempts = 10; // Try to load up to 10 mountain files
-            
-            for (let i = 1; i <= maxAttempts; i++) {
-                try {
-                    const response = await fetch(`mountains/mountain${i}.txt`);
-                    if (response.ok) {
-                        const text = await response.text();
-                        mountains.push(text);
-                        mountainFiles.push(`mountain${i}.txt`);
-                    }
-                } catch (error) {
-                    // File doesn't exist or couldn't be loaded, continue
-                }
-            }
-            
-            // Also try some named files
+
             const namedFiles = [
                 'everest.txt', 'k2.txt', 'matterhorn.txt', 'aconcagua.txt', 
                 'whitney.txt', 'gardena.txt', 'kilimanjaro.txt', 'denali.txt',
@@ -350,21 +331,6 @@
                 } catch (error) {
                     // File doesn't exist or couldn't be loaded, continue
                 }
-            }
-            
-            // If no mountains were loaded, show an error message
-            if (mountains.length === 0) {
-                mountains.push(`
-                    No mountain files found!
-                    
-                    Please add .txt files containing ASCII art to the mountains/ folder.
-                    
-                    Examples:
-                    - mountains/mountain1.txt
-                    - mountains/mountain2.txt
-                    - mountains/everest.txt
-                    - mountains/alps.txt
-                `);
             }
             
             // Select a random mountain and display it
